@@ -70,12 +70,21 @@ const repliesSection = createDomElement('div', 'replies-section');
     const replyUserImage = createDomElement('img', 'user-image', user.image.png);
     const replyUserName = createDomElement('p', 'user-name', null, user.username);
     const replyDate = createDomElement('p', 'date', null, createdAt )
+    const scoreReplyForReply = createDomElement('div', 'score-reply')
+
+//     const replyScoreReply = createDomElement('div', 'score-reply')
+// const replyDivReply = createDomElement('div', "reply-div")
+const replyScoreElement = createDomElement('div', 'score-value', null, score, id )
+
+// replyDivReply.append(replyIcon,replyComment)
+replyScoreElement.prepend(plusIcon);
+replyScoreElement.appendChild(minusIcon);
 
 
 
-
+scoreReplyForReply.append(replyScoreElement)
     replyUserDate.append(replyUserImage,replyUserName,replyDate)
-    replyBox.append( replyUserDate,replyText);
+    replyBox.append( replyUserDate,replyText,scoreReplyForReply);
     repliesSection.append(replyBox);
     }
     commentSection.append(repliesSection);
