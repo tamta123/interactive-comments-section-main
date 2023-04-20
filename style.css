@@ -62,6 +62,12 @@ body {
   color: #334253;
 }
 
+.score-reply {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .score-value {
   background: #f5f6fa;
   border-radius: 10px;
@@ -79,5 +85,41 @@ body {
   line-height: 19px;
   text-align: center;
   color: #5357b6;
-  margin-top: 16px;
+  /* margin-top: 16px; */
+}
+
+.reply-div {
+  display: flex;
+  gap: 8px;
+}
+
+.reply-div p {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #5357b6;
+}
+
+.replies-section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-left: 2px solid #e9ebf0;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.reply-box {
+  width: 95%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
 }
