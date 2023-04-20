@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap");
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: #f5f6fa;
+  padding: 32px 16px;
+}
+
+.interactive-comments-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment-box {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.user-date {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+}
+
+.comment-text,
+.date {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #67727e;
+}
+
+.user-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-image {
+  width: 32px;
+  height: 32px;
+}
+
+.user-name {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #334253;
+}
+
+.score-value {
+  background: #f5f6fa;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100px;
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #5357b6;
+  margin-top: 16px;
+}
