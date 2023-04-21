@@ -72,20 +72,35 @@ const repliesSection = createDomElement('div', 'replies-section');
     const replyDate = createDomElement('p', 'date', null, createdAt )
     const scoreReplyForReply = createDomElement('div', 'score-reply')
 
-//     const replyScoreReply = createDomElement('div', 'score-reply')
-// const replyDivReply = createDomElement('div', "reply-div")
+    const replyScoreReply = createDomElement('div', 'score-reply')
+const replyDivReply = createDomElement('div', "reply-div")
 const replyScoreElement = createDomElement('div', 'score-value', null, score, id )
 
-// replyDivReply.append(replyIcon,replyComment)
-replyScoreElement.prepend(plusIcon);
-replyScoreElement.appendChild(minusIcon);
 
 
 
-scoreReplyForReply.append(replyScoreElement)
+const plusIconNew = document.createElement('img');
+plusIconNew.src = './images/icon-plus.svg';
+plusIconNew.classList.add('icon');
+const minusIconNew = document.createElement('img');
+minusIconNew.src = './images/icon-minus.svg';
+minusIconNew.classList.add('icon');
+replyScoreElement.prepend(plusIconNew);
+replyScoreElement.appendChild(minusIconNew);
+const replyIconReply = document.createElement('img');
+replyIconReply.src = './images/icon-reply.svg'
+const replyCommentReply = document.createElement('p')
+replyCommentReply.textContent='reply'
+
+
+
+
+
+scoreReplyForReply.append(replyScoreElement, replyDivReply)
     replyUserDate.append(replyUserImage,replyUserName,replyDate)
     replyBox.append( replyUserDate,replyText,scoreReplyForReply);
     repliesSection.append(replyBox);
+    replyDivReply.append(replyIconReply,replyCommentReply)
     }
     commentSection.append(repliesSection);
 }

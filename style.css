@@ -123,3 +123,52 @@ body {
   border-radius: 8px;
   padding: 16px;
 }
+
+.current-user-comment-area {
+  background: #ffffff;
+  border-radius: 8px;
+  width: 100%;
+  padding: 16px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e9ebf0;
+  border-radius: 8px;
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #67727e;
+  margin-bottom: 16px;
+}
+
+.current-user-comment-area input[type="submit"] {
+  background: #5357b6;
+  border-radius: 8px;
+  padding: 12px 30px;
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+  border: transparent;
+  margin-left: 0;
+}
