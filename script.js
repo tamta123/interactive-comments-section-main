@@ -4,7 +4,7 @@ import data from "./data.json" assert {type:"json"}
 const commentSection = document.querySelector(".interactive-comments-section");
 const currentUser = data.currentUser;
 
-const createDomElement = (tag, className, src, text, id,) => {
+const createDomElement = (tag, className, src, text, id, type) => {
   const element = document.createElement(tag);
   element.classList.add(className);
   if (src) {
@@ -16,10 +16,8 @@ const createDomElement = (tag, className, src, text, id,) => {
   if (id) {
     element.setAttribute('id',id);
   }
-  if (event) {
-    element[event] = () => {
-      eventFc();
-    };
+  if (type) {
+    element.setAttribute('type', type);
   }
   return element;
 };
@@ -51,12 +49,15 @@ for (let index = 0; index < data.comments.length; index++) {
   const replyComment = document.createElement('p');
   replyComment.textContent = 'reply';
 
+//   const replyByCurrentUser=createDomElement("div","reply-by-current-user")
+
+
   commentBox.append(userDate, commentText, scoreReply);
   scoreReply.append(scoreElement, replyDiv);
   replyDiv.append(replyIcon, replyComment);
-  commentSection.append(commentBox);
   userBox.append(userImage, userName);
   userDate.append(userBox, commentDate);
+
 
 
   const repliesSection = createDomElement('div', 'replies-section');
@@ -69,7 +70,7 @@ for (let index = 0; index < data.comments.length; index++) {
     const replyUserName = createDomElement('p', 'user-name', null, user.username);
     const replyDate = createDomElement('p', 'date', null, createdAt )
     const scoreReplyForReply = createDomElement('div', 'score-reply')
-    const replyScoreReply = createDomElement('div', 'score-reply')
+    // const replyScoreReply = createDomElement('div', 'score-reply')
     const replyDivReply = createDomElement('div', "reply-div")
     const replyScoreElement = createDomElement('div', 'score-value', null, score, id )
     const deleteDiv =  createDomElement ('div', 'delete-div')
@@ -110,17 +111,69 @@ for (let index = 0; index < data.comments.length; index++) {
 
     }
 
+    // if (replies.length > 0) {
+    //     commentSection.append(commentBox, repliesSection); 
+    //   } else {
+    //     commentSection.append(commentBox);
+    //   }
+    
+
         replyUserDate.append(replyUserImage,replyUserName,replyDate)
         replyBox.append( replyUserDate,replyText,scoreReplyForReply);
         repliesSection.append(replyBox);
         replyDivReply.append(replyIconReply,replyCommentReply)
-        }
-        commentSection.append(repliesSection);
-    
+        
+       
+        commentSection.append( commentBox, repliesSection);
 
-        replyDiv.addEventListener("click", function() {
-            console.log("The replyDiv was clicked!");
-          });
+        const body=document.querySelector("body")
+        body.prepend(commentSection)
+
+        const deleteSection = createDomElement("div", "delete-section")
+        const deleteBox = createDomElement("div", "delete-box")
+        const deleteBoxHeading = createDomElement("p", "delete-box-heading", null,"Delete comment",)
+        const warningText = createDomElement("p","warning-text", null, "Are you sure you want to delete this comment? This will remove the comment and can’t be undone.")
+        
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'submit';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.type = 'submit';
+        cancelButton.textContent = 'NO, CANCEL';
+        cancelButton.classList.add("cancel-button");
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'submit';
+        deleteButton.textContent = 'YES, DELETE';
+        deleteButton.classList.add("delete-button");
+        
+
+        // const cancelButton = createDomElement("div", "cancel-button", null, "NO, CANCEL",null, submitButton)
+        // const DeleteButton = createDomElement("div", "delete-button", null, "YES, DELETE",null, submitButton)
+
+        body.append(deleteSection);
+        deleteSection.append(deleteBox)
+        deleteBox.append(deleteBoxHeading,warningText,form)
+        form.append(cancelButton,deleteButton);
+
+
+
+        // const currentUserCommentArea = document.querySelector('.current-user-comment-area');
+        // const textarea = document.querySelector('textarea[name="text"]');
+        // const submitButton = document.querySelector('input[type="submit"]');
+        // const userImagePhoto = document.querySelector('.current-user');
+
+
+        // replyDiv.addEventListener("click", function() {
+        //     replyByCurrentUser.style.display = "block"
+        // });
+
+        deleteDiv.addEventListener("click",function(){
+            deleteSection.style.display = "block"
+        })
+}
+
     }
 
 
