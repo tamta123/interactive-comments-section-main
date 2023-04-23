@@ -49,15 +49,48 @@ for (let index = 0; index < data.comments.length; index++) {
   const replyComment = document.createElement('p');
   replyComment.textContent = 'reply';
 
-//   const replyByCurrentUser=createDomElement("div","reply-by-current-user")
 
-
+  commentSection.append(commentBox)
   commentBox.append(userDate, commentText, scoreReply);
   scoreReply.append(scoreElement, replyDiv);
   replyDiv.append(replyIcon, replyComment);
   userBox.append(userImage, userName);
   userDate.append(userBox, commentDate);
 
+  // Reply to comment section
+
+  const replyToComment = createDomElement("div", "reply-to-comment");
+  const IAmReplier =  createDomElement('div', "i-am-replier")
+  const myPhoto = createDomElement("img", "my-photo", currentUser.image.png)
+  const myName = createDomElement ("p", "my-name", null, currentUser.username)
+
+  commentSection.append(replyToComment)
+  replyToComment.append(IAmReplier)
+  IAmReplier.append(myPhoto,myName)
+
+  let myForm = document.createElement("form");
+  myForm.action = "myScript.php";
+  myForm.method = "post";
+  myForm.enctype = "multipart/form-data";
+
+  let myTextArea = document.createElement("textarea");
+  myTextArea.name = "myText";
+  myTextArea.id = "myText";
+  myTextArea.rows = 4;
+  myTextArea.cols = 50;
+  myForm.append(myTextArea);
+
+  let mySubmit = document.createElement("input");
+  mySubmit.type = "submit";
+  mySubmit.id = "mySubmit";
+  mySubmit.value = "Reply";
+  myForm.append(mySubmit);
+
+  replyToComment.append(myForm)
+
+  replyDiv.addEventListener("click",function(){
+    replyToComment.style.display = "block"
+  })
 
 
   const repliesSection = createDomElement('div', 'replies-section');
@@ -70,7 +103,6 @@ for (let index = 0; index < data.comments.length; index++) {
     const replyUserName = createDomElement('p', 'user-name', null, user.username);
     const replyDate = createDomElement('p', 'date', null, createdAt )
     const scoreReplyForReply = createDomElement('div', 'score-reply')
-    // const replyScoreReply = createDomElement('div', 'score-reply')
     const replyDivReply = createDomElement('div', "reply-div")
     const replyScoreElement = createDomElement('div', 'score-value', null, score, id )
     const deleteDiv =  createDomElement ('div', 'delete-div')
@@ -90,7 +122,7 @@ for (let index = 0; index < data.comments.length; index++) {
     replyIconReply.src = './images/icon-reply.svg'
     const replyCommentReply = document.createElement('p')
     replyCommentReply.textContent='reply'
-    
+
 
     const deleteIcon = document.createElement('img');
     deleteIcon.src = './images/icon-delete.svg'
@@ -106,74 +138,101 @@ for (let index = 0; index < data.comments.length; index++) {
     if (user.username === currentUser.username) {
         scoreReplyForReply.append(replyScoreElement, deleteDiv, editDiv) 
 
-    }else{
+    } else {
         scoreReplyForReply.append(replyScoreElement,replyDivReply ) 
-
     }
 
-    // if (replies.length > 0) {
-    //     commentSection.append(commentBox, repliesSection); 
-    //   } else {
-    //     commentSection.append(commentBox);
-    //   }
+    replyUserDate.append(replyUserImage,replyUserName,replyDate)
+    replyBox.append( replyUserDate,replyText,scoreReplyForReply);
+    repliesSection.append(replyBox);
+    replyDivReply.append(replyIconReply,replyCommentReply)
     
-
-        replyUserDate.append(replyUserImage,replyUserName,replyDate)
-        replyBox.append( replyUserDate,replyText,scoreReplyForReply);
-        repliesSection.append(replyBox);
-        replyDivReply.append(replyIconReply,replyCommentReply)
-        
        
-        commentSection.append( commentBox, repliesSection);
+    commentSection.append(repliesSection);
 
-        const body=document.querySelector("body")
-        body.prepend(commentSection)
 
-        const deleteSection = createDomElement("div", "delete-section")
-        const deleteBox = createDomElement("div", "delete-box")
-        const deleteBoxHeading = createDomElement("p", "delete-box-heading", null,"Delete comment",)
-        const warningText = createDomElement("p","warning-text", null, "Are you sure you want to delete this comment? This will remove the comment and can’t be undone.")
+    // Reply to comment section (reply to comments section)
+
+  const replyToCommentSecond = createDomElement("div", "reply-to-comment");
+  const IAmReplierSecond =  createDomElement('div', "i-am-replier")
+  const myPhotoSecond = createDomElement("img", "my-photo", currentUser.image.png)
+  const myNameSecond = createDomElement ("p", "my-name", null, currentUser.username)
+
+  repliesSection.append(replyToCommentSecond)
+  replyToCommentSecond.append(IAmReplierSecond)
+  IAmReplierSecond.append(myPhotoSecond,myNameSecond)
+
+  let myFormSecond = document.createElement("form");
+  myFormSecond.action = "myScript.php";
+  myFormSecond.method = "post";
+  myFormSecond.enctype = "multipart/form-data";
+
+  let myTextAreaSecond = document.createElement("textarea");
+  myTextAreaSecond.name = "myText";
+  myTextAreaSecond.id = "myTextSecond";
+  myTextAreaSecond.rows = 4;
+  myTextAreaSecond.cols = 50;
+  myFormSecond.append(myTextAreaSecond);
+
+  let mySubmitSecond = document.createElement("input");
+  mySubmitSecond.type = "submit";
+  mySubmitSecond.id = "mySubmitSecond";
+  mySubmitSecond.value = "Reply";
+  myFormSecond.append(mySubmitSecond);
+
+  replyToCommentSecond.append(myFormSecond)
+
+    replyDivReply.addEventListener("click",function(){
+      replyToCommentSecond.style.display = "block"
+    })
+
+    // if (user.username !== currentUser.username) {
+    //   repliesSection.append(replyToCommentSecond)
+    // }else {
+      
+    // }
+
+    // Delete section
+
+    const body=document.querySelector("body")
+    body.prepend(commentSection)
+
+    const deleteSection = createDomElement("div", "delete-section")
+    const deleteBox = createDomElement("div", "delete-box")
+    const deleteBoxHeading = createDomElement("p", "delete-box-heading", null,"Delete comment",)
+    const warningText = createDomElement("p","warning-text", null, "Are you sure you want to delete this comment? This will remove the comment and can’t be undone.")
         
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = 'submit';
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'submit';
 
-        const cancelButton = document.createElement('button');
-        cancelButton.type = 'submit';
-        cancelButton.textContent = 'NO, CANCEL';
-        cancelButton.classList.add("cancel-button");
+    const cancelButton = document.createElement('button');
+    cancelButton.type = 'submit';
+    cancelButton.textContent = 'NO, CANCEL';
+    cancelButton.classList.add("cancel-button");
 
-        const deleteButton = document.createElement('button');
-        deleteButton.type = 'submit';
-        deleteButton.textContent = 'YES, DELETE';
-        deleteButton.classList.add("delete-button");
+    const deleteButton = document.createElement('button');
+    deleteButton.type = 'submit';
+    deleteButton.textContent = 'YES, DELETE';
+    deleteButton.classList.add("delete-button");
         
 
-        // const cancelButton = createDomElement("div", "cancel-button", null, "NO, CANCEL",null, submitButton)
-        // const DeleteButton = createDomElement("div", "delete-button", null, "YES, DELETE",null, submitButton)
+    // const cancelButton = createDomElement("div", "cancel-button", null, "NO, CANCEL",null, submitButton)
+    // const DeleteButton = createDomElement("div", "delete-button", null, "YES, DELETE",null, submitButton)
 
-        body.append(deleteSection);
-        deleteSection.append(deleteBox)
-        deleteBox.append(deleteBoxHeading,warningText,form)
-        form.append(cancelButton,deleteButton);
-
-
-
-        // const currentUserCommentArea = document.querySelector('.current-user-comment-area');
-        // const textarea = document.querySelector('textarea[name="text"]');
-        // const submitButton = document.querySelector('input[type="submit"]');
-        // const userImagePhoto = document.querySelector('.current-user');
-
-
-        // replyDiv.addEventListener("click", function() {
-        //     replyByCurrentUser.style.display = "block"
-        // });
-
-        deleteDiv.addEventListener("click",function(){
-            deleteSection.style.display = "block"
-        })
-}
-
+    if (user.username === currentUser.username) {
+      body.append(deleteSection)
     }
+
+    deleteSection.append(deleteBox);
+    deleteBox.append(deleteBoxHeading,warningText,form)
+    form.append(cancelButton,deleteButton);
+
+
+    deleteDiv.addEventListener("click",function(){
+      deleteSection.style.display = "block"
+    })
+  }
+}
 
 
