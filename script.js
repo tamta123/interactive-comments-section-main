@@ -32,18 +32,18 @@ for (let index = 0; index < data.comments.length; index++) {
   const commentText = createDomElement('p', 'comment-text', null, content, id);
   const scoreReply = createDomElement('div', 'score-reply');
   const replyDiv = createDomElement('div', "reply-div");
-  const scoreElement = createDomElement('div', 'score-value', null, score, id);
   const userDate = createDomElement('div', 'user-date');
   const commentDate = createDomElement('p', 'date', null, createdAt);
 
+  const scoreElement = createDomElement('div', 'score-value', null, null, id);
+  const scoreValue =  createDomElement("p","score-number", null, score)
   const plusIcon = document.createElement('img');
   plusIcon.src = './images/icon-plus.svg';
-  plusIcon.classList.add('icon');
+  plusIcon.classList.add('icon-plus');
   const minusIcon = document.createElement('img');
   minusIcon.src = './images/icon-minus.svg';
-  minusIcon.classList.add('icon');
-  scoreElement.prepend(plusIcon);
-  scoreElement.appendChild(minusIcon);
+  minusIcon.classList.add('icon-minus');
+  scoreElement.append(plusIcon, scoreValue, minusIcon);
   const replyIcon = document.createElement('img');
   replyIcon.src = './images/icon-reply.svg';
   const replyComment = document.createElement('p');
@@ -56,6 +56,16 @@ for (let index = 0; index < data.comments.length; index++) {
   replyDiv.append(replyIcon, replyComment);
   userBox.append(userImage, userName);
   userDate.append(userBox, commentDate);
+  
+
+  plusIcon.addEventListener('click', () => {
+    scoreValue.textContent = score+1;
+  });
+
+  minusIcon.addEventListener('click', () => {
+    scoreValue.textContent = score-1;
+
+  });
 
   // Reply to comment section
 
@@ -88,6 +98,14 @@ for (let index = 0; index < data.comments.length; index++) {
 
   replyToComment.append(myForm)
 
+  myTextArea.addEventListener("input", function() {
+    if (myTextArea.value.trim().length > 0) {
+      mySubmit.value = "Send";
+    } else {
+      mySubmit.value = "Reply";
+    }
+  });
+
   replyDiv.addEventListener("click",function(){
     replyToComment.style.display = "block"
   })
@@ -104,7 +122,8 @@ for (let index = 0; index < data.comments.length; index++) {
     const replyDate = createDomElement('p', 'date', null, createdAt )
     const scoreReplyForReply = createDomElement('div', 'score-reply')
     const replyDivReply = createDomElement('div', "reply-div")
-    const replyScoreElement = createDomElement('div', 'score-value', null, score, id )
+    const replyScoreElement = createDomElement('div', 'score-value', null, null, id )
+    const replyScoreValue =  createDomElement("p","score-number", null, score)
     const deleteDiv =  createDomElement ('div', 'delete-div')
     const editDiv =  createDomElement ('div', 'delete-div')
 
@@ -112,17 +131,25 @@ for (let index = 0; index < data.comments.length; index++) {
     
     const plusIconNew = document.createElement('img');
     plusIconNew.src = './images/icon-plus.svg';
-    plusIconNew.classList.add('icon');
+    plusIconNew.classList.add('icon-plus');
     const minusIconNew = document.createElement('img');
     minusIconNew.src = './images/icon-minus.svg';
-    minusIconNew.classList.add('icon');
-    replyScoreElement.prepend(plusIconNew);
-    replyScoreElement.appendChild(minusIconNew);
+    minusIconNew.classList.add('icon-minus');
+    replyScoreElement.prepend(plusIconNew,replyScoreValue,minusIconNew);
     const replyIconReply = document.createElement('img');
     replyIconReply.src = './images/icon-reply.svg'
     const replyCommentReply = document.createElement('p')
     replyCommentReply.textContent='reply'
 
+
+    plusIconNew.addEventListener('click', () => {
+      replyScoreValue.textContent = score+1;
+    });
+  
+    minusIconNew.addEventListener('click', () => {
+      replyScoreValue.textContent = score-1;
+  
+    });
 
     const deleteIcon = document.createElement('img');
     deleteIcon.src = './images/icon-delete.svg'
@@ -153,38 +180,48 @@ for (let index = 0; index < data.comments.length; index++) {
 
     // Reply to comment section (reply to comments section)
 
-  const replyToCommentSecond = createDomElement("div", "reply-to-comment");
-  const IAmReplierSecond =  createDomElement('div', "i-am-replier")
-  const myPhotoSecond = createDomElement("img", "my-photo", currentUser.image.png)
-  const myNameSecond = createDomElement ("p", "my-name", null, currentUser.username)
+    const replyToCommentSecond = createDomElement("div", "reply-to-comment");
+    const IAmReplierSecond =  createDomElement('div', "i-am-replier")
+    const myPhotoSecond = createDomElement("img", "my-photo", currentUser.image.png)
+    const myNameSecond = createDomElement ("p", "my-name", null, currentUser.username)
 
-  repliesSection.append(replyToCommentSecond)
-  replyToCommentSecond.append(IAmReplierSecond)
-  IAmReplierSecond.append(myPhotoSecond,myNameSecond)
+    repliesSection.append(replyToCommentSecond)
+    replyToCommentSecond.append(IAmReplierSecond)
+    IAmReplierSecond.append(myPhotoSecond,myNameSecond)
 
-  let myFormSecond = document.createElement("form");
-  myFormSecond.action = "myScript.php";
-  myFormSecond.method = "post";
-  myFormSecond.enctype = "multipart/form-data";
+    let myFormSecond = document.createElement("form");
+    myFormSecond.action = "myScript.php";
+    myFormSecond.method = "post";
+    myFormSecond.enctype = "multipart/form-data";
 
-  let myTextAreaSecond = document.createElement("textarea");
-  myTextAreaSecond.name = "myText";
-  myTextAreaSecond.id = "myTextSecond";
-  myTextAreaSecond.rows = 4;
-  myTextAreaSecond.cols = 50;
-  myFormSecond.append(myTextAreaSecond);
+    let myTextAreaSecond = document.createElement("textarea");
+    myTextAreaSecond.name = "myText";
+    myTextAreaSecond.id = "myTextSecond";
+    myTextAreaSecond.rows = 4;
+    myTextAreaSecond.cols = 50;
+    myFormSecond.append(myTextAreaSecond);
 
-  let mySubmitSecond = document.createElement("input");
-  mySubmitSecond.type = "submit";
-  mySubmitSecond.id = "mySubmitSecond";
-  mySubmitSecond.value = "Reply";
-  myFormSecond.append(mySubmitSecond);
+    let mySubmitSecond = document.createElement("input");
+    mySubmitSecond.type = "submit";
+    mySubmitSecond.id = "mySubmitSecond";
+    mySubmitSecond.value = "Reply";
+    myFormSecond.append(mySubmitSecond);
 
-  replyToCommentSecond.append(myFormSecond)
+    replyToCommentSecond.append(myFormSecond)
+
+    myTextAreaSecond.addEventListener("input", function() {
+      if (myTextAreaSecond.value.trim().length > 0) {
+        mySubmitSecond.value = "Send";
+      } else {
+        mySubmitSecond.value = "Reply";
+      }
+    });
 
     replyDivReply.addEventListener("click",function(){
       replyToCommentSecond.style.display = "block"
     })
+
+    
 
     // if (user.username !== currentUser.username) {
     //   repliesSection.append(replyToCommentSecond)
