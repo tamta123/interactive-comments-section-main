@@ -191,6 +191,7 @@ textarea {
   line-height: 24px;
   color: #67727e;
   margin-bottom: 16px;
+  resize: none;
 }
 
 .current-user-comment-area input[type="submit"] {
@@ -261,7 +262,7 @@ textarea {
   color: #67727e;
 }
 
-.delete-box form {
+.delete-box .button-section {
   width: 100%;
   height: 48px;
   display: flex;
@@ -271,8 +272,8 @@ textarea {
   gap: 12px;
 }
 
-.delete-box form .cancel-button,
-.delete-box form .delete-button {
+.cancel-button,
+.delete-button {
   width: 50%;
   height: 48px;
   font-family: "Rubik";
@@ -288,7 +289,7 @@ textarea {
   background: #67727e;
 }
 
-.delete-box form .delete-button {
+.delete-button {
   background: #ed6368;
 }
 
@@ -340,4 +341,12 @@ textarea {
 
 .replies-section .reply-to-comment {
   width: 95%;
+}
+
+.my-text-area {
+  resize: none;
+}
+
+.my-text-area-second {
+  resize: none;
 }

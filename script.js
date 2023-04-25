@@ -5,6 +5,7 @@ const deleteBox = document.querySelector(".delete-box");
 const deleteBoxHeading = document.querySelector(".delete-box-heading");
 const cancelButton = document.querySelector(".cancel-button");
 const deleteButton = document.querySelector(".delete-button");
+
 const commentSection = document.querySelector(".interactive-comments-section");
 const currentUser = data.currentUser;
 
@@ -14,7 +15,7 @@ const createDomElement = (tag, className, src, text, id, type) => {
   if (src) {
     element.src = src;
   }
-  if (text) {
+  if (text || text == 0) {
     element.textContent = text;
   }
   if (id) {
@@ -72,10 +73,15 @@ const information = () => {
     plusIcon.addEventListener("click", () => {
       data.comments[index].score = data.comments[index].score + 1;
       information();
+      console.log(data.comments[index].score);
     });
 
     minusIcon.addEventListener("click", () => {
-      data.comments[index].score = data.comments[index].score - 1;
+      if (data.comments[index].score > 0) {
+        data.comments[index].score = data.comments[index].score - 1;
+      } else {
+        data.comments[index].score = 0;
+      }
       information();
     });
 
@@ -90,25 +96,43 @@ const information = () => {
     replyToComment.append(IAmReplier);
     IAmReplier.append(myPhoto, myName);
 
-    let myForm = document.createElement("form");
-    myForm.action = "myScript.php";
-    myForm.method = "post";
-    myForm.enctype = "multipart/form-data";
-
     let myTextArea = document.createElement("textarea");
+    myTextArea.classList.add("my-text-area");
     myTextArea.name = "myText";
     myTextArea.id = "myText";
     myTextArea.rows = 4;
     myTextArea.cols = 50;
-    myForm.append(myTextArea);
 
     let mySubmit = document.createElement("input");
     mySubmit.type = "submit";
     mySubmit.id = "mySubmit";
     mySubmit.value = "Reply";
-    myForm.append(mySubmit);
 
-    replyToComment.append(myForm);
+    replyToComment.append(myTextArea, mySubmit);
+
+    mySubmit.addEventListener("click", () => {
+      const replyText = myTextArea.value.trim();
+      if (replyText !== "") {
+        const newReply = {
+          id: 3,
+          content: replyText,
+          createdAt: "1 week ago",
+          score: 0,
+          replyingTo: data.comments[index].user.username,
+          user: {
+            image: {
+              png: "./images/avatars/image-juliusomo.png",
+              webp: "./images/avatars/image-juliusomo.webp",
+            },
+            username: "juliusomo",
+          },
+        };
+        data.comments[index].replies.push(newReply);
+        myTextArea.value = "";
+        information();
+        // console.log(data.comments[index].replies);
+      }
+    });
 
     myTextArea.addEventListener("input", function () {
       if (myTextArea.value.trim().length > 0) {
@@ -119,7 +143,11 @@ const information = () => {
     });
 
     replyDiv.addEventListener("click", function () {
-      replyToComment.style.display = "block";
+      if (replyToComment.style.display === "block") {
+        replyToComment.style.display = "none";
+      } else {
+        replyToComment.style.display = "block";
+      }
     });
 
     const repliesSection = createDomElement("div", "replies-section");
@@ -176,11 +204,20 @@ const information = () => {
       replyCommentReply.textContent = "reply";
 
       plusIconNew.addEventListener("click", () => {
-        replyScoreValue.textContent = score + 1;
+        data.comments[index].replies[j].score =
+          data.comments[index].replies[j].score + 1;
+        console.log(data.comments[index].replies[j].score);
+        information();
       });
-
       minusIconNew.addEventListener("click", () => {
-        replyScoreValue.textContent = score - 1;
+        if (data.comments[index].replies[j].score > 0) {
+          data.comments[index].replies[j].score =
+            data.comments[index].replies[j].score - 1;
+        } else {
+          data.comments[index].replies[j].score = 0;
+        }
+        console.log(data.comments[index].replies[j].score);
+        information();
       });
 
       const deleteIcon = document.createElement("img");
@@ -226,25 +263,42 @@ const information = () => {
       replyToCommentSecond.append(IAmReplierSecond);
       IAmReplierSecond.append(myPhotoSecond, myNameSecond);
 
-      let myFormSecond = document.createElement("form");
-      myFormSecond.action = "myScript.php";
-      myFormSecond.method = "post";
-      myFormSecond.enctype = "multipart/form-data";
-
       let myTextAreaSecond = document.createElement("textarea");
+      myTextAreaSecond.classList.add("my-text-area-second");
       myTextAreaSecond.name = "myText";
       myTextAreaSecond.id = "myTextSecond";
       myTextAreaSecond.rows = 4;
       myTextAreaSecond.cols = 50;
-      myFormSecond.append(myTextAreaSecond);
 
       let mySubmitSecond = document.createElement("input");
       mySubmitSecond.type = "submit";
       mySubmitSecond.id = "mySubmitSecond";
       mySubmitSecond.value = "Reply";
-      myFormSecond.append(mySubmitSecond);
 
-      replyToCommentSecond.append(myFormSecond);
+      replyToCommentSecond.append(myTextAreaSecond, mySubmitSecond);
+
+      mySubmitSecond.addEventListener("click", () => {
+        const replyTextSecond = myTextAreaSecond.value.trim();
+        if (replyTextSecond !== "") {
+          const newReplySecond = {
+            id: 3,
+            content: replyTextSecond,
+            createdAt: "1 week ago",
+            score: 0,
+            replyingTo: data.comments[index].replies[j].user.username,
+            user: {
+              image: {
+                png: "./images/avatars/image-juliusomo.png",
+                webp: "./images/avatars/image-juliusomo.webp",
+              },
+              username: "juliusomo",
+            },
+          };
+          data.comments[index].replies.push(newReplySecond);
+          myTextArea.value = "";
+          information();
+        }
+      });
 
       myTextAreaSecond.addEventListener("input", function () {
         if (myTextAreaSecond.value.trim().length > 0) {
@@ -255,9 +309,12 @@ const information = () => {
       });
 
       replyDivReply.addEventListener("click", function () {
-        replyToCommentSecond.style.display = "block";
+        if (replyToCommentSecond.style.display === "block") {
+          replyToCommentSecond.style.display = "none";
+        } else {
+          replyToCommentSecond.style.display = "block";
+        }
       });
-
       deleteDiv.addEventListener("click", function () {
         deleteSection.style.display = "block";
       });
@@ -269,4 +326,8 @@ information();
 
 cancelButton.addEventListener("click", function () {
   deleteSection.style.display = "none";
+});
+
+deleteButton.addEventListener("click", function () {
+  // replyBox.style.display = "none";
 });
