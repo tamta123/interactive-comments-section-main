@@ -114,7 +114,7 @@ const information = () => {
       const replyText = myTextArea.value.trim();
       if (replyText !== "") {
         const newReply = {
-          id: 3,
+          id: 10,
           content: replyText,
           createdAt: "1 week ago",
           score: 0,
@@ -130,6 +130,7 @@ const information = () => {
         data.comments[index].replies.push(newReply);
         myTextArea.value = "";
         information();
+
         // console.log(data.comments[index].replies);
       }
     });
@@ -317,6 +318,14 @@ const information = () => {
       });
       deleteDiv.addEventListener("click", function () {
         deleteSection.style.display = "block";
+        deleteButton.onclick = () => {
+          const newReplyIndex = data.comments[index].replies.findIndex(
+            (reply) => data.comments[index].replies.id === 10
+          );
+          data.comments[index].replies.splice(newReplyIndex, 1);
+          deleteSection.style.display = "none";
+          information();
+        };
       });
     }
   }
@@ -326,8 +335,4 @@ information();
 
 cancelButton.addEventListener("click", function () {
   deleteSection.style.display = "none";
-});
-
-deleteButton.addEventListener("click", function () {
-  // replyBox.style.display = "none";
 });
