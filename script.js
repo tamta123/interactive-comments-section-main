@@ -76,7 +76,7 @@ const information = () => {
     updateDiv.append(updateButton);
 
     commentSection.append(commentBox);
-    commentBox.append(userDate, commentText, scoreReply);
+    commentBox.append(userDate, commentText, scoreReply, updateDiv);
     scoreReply.append(scoreElement);
     replyDiv.append(replyIcon, replyComment);
     userBox.append(userImage, userName);
@@ -128,6 +128,27 @@ const information = () => {
     } else {
       scoreReply.append(scoreElement, replyDiv);
     }
+
+    editDiv.addEventListener("click", () => {
+      commentText.contentEditable = true;
+      commentText.classList.add("editing");
+      commentText.focus();
+      scoreReply.style.display = "none";
+      updateDiv.style.display = "flex";
+    });
+
+    updateButton.addEventListener("click", () => {
+      commentText.contentEditable = false;
+      commentText.classList.remove("editing");
+      const updateCommentText = replyText.innerHTML.trim();
+      data.comment[index].replies = updateCommentText;
+      information();
+    });
+
+    updateDiv.onclick = () => {
+      updateDiv.style.display = "none";
+      scoreReply.style.display = "flex";
+    };
 
     // Reply to comment section
 
