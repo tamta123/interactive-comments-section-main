@@ -17,14 +17,15 @@
   <body>
     <div class="interactive-comments-section"></div>
     <div class="current-user-comment-area">
-      <form action="/action_page.php">
+      <div class="add-comment">
         <textarea
+          class="add-comment-textarea"
           name="text"
           class="textarea"
           placeholder="Add a comment…"
         ></textarea>
-        <input type="submit" value="Send" />
-      </form>
+        <button class="send-comment">Send</button>
+      </div>
       <img
         src="./images/avatars/image-juliusomo.png"
         alt="current user"

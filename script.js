@@ -9,6 +9,9 @@ const deleteButton = document.querySelector(".delete-button");
 const commentSection = document.querySelector(".interactive-comments-section");
 const currentUser = data.currentUser;
 
+const addCommentTextarea = document.querySelector(".add-comment-textarea");
+const sendCommentButton = document.querySelector(".send-comment");
+
 const createDomElement = (tag, className, src, text, id, type) => {
   const element = document.createElement(tag);
   element.classList.add(className);
@@ -74,7 +77,7 @@ const information = () => {
 
     commentSection.append(commentBox);
     commentBox.append(userDate, commentText, scoreReply);
-    scoreReply.append(scoreElement, replyDiv);
+    scoreReply.append(scoreElement);
     replyDiv.append(replyIcon, replyComment);
     userBox.append(userImage, userName);
     userDate.append(userBox, commentDate);
@@ -93,6 +96,38 @@ const information = () => {
       }
       information();
     });
+
+    const deleteDiv = createDomElement("div", "delete-div");
+    const editDiv = createDomElement("div", "delete-div");
+
+    deleteDiv.addEventListener("click", function () {
+      deleteSection.style.display = "block";
+      deleteButton.onclick = (event) => {
+        const newCommentIndex = data.comments.findIndex(
+          (comment) => event.target.id
+        );
+        data.comments.splice(newCommentIndex, 1);
+        deleteSection.style.display = "none";
+        information();
+      };
+      console.log("click");
+    });
+
+    const deleteIcon = document.createElement("img");
+    deleteIcon.src = "./images/icon-delete.svg";
+    const deleteText = createDomElement("p", "delete-text", null, "Delete");
+    deleteDiv.append(deleteIcon, deleteText);
+
+    const editIcon = document.createElement("img");
+    editIcon.src = "./images/icon-edit.svg";
+    const editText = createDomElement("p", null, null, "Edit");
+    editDiv.append(editIcon, editText);
+
+    if (user.username === currentUser.username) {
+      scoreReply.append(scoreElement, deleteDiv, editDiv);
+    } else {
+      scoreReply.append(scoreElement, replyDiv);
+    }
 
     // Reply to comment section
 
@@ -123,7 +158,7 @@ const information = () => {
       const replyText = myTextArea.value.trim();
       if (replyText !== "") {
         const newReply = {
-          id: 10,
+          id: Math.floor(Math.random() * 1000000),
           content: replyText,
           createdAt: "1 week ago",
           score: 0,
@@ -196,8 +231,6 @@ const information = () => {
         null,
         score
       );
-      const deleteDiv = createDomElement("div", "delete-div");
-      const editDiv = createDomElement("div", "delete-div");
 
       const plusIconNew = document.createElement("img");
       plusIconNew.src = "./images/icon-plus.svg";
@@ -226,16 +259,6 @@ const information = () => {
         console.log(data.comments[index].replies[j].score);
         information();
       });
-
-      const deleteIcon = document.createElement("img");
-      deleteIcon.src = "./images/icon-delete.svg";
-      const deleteText = createDomElement("p", "delete-text", null, "Delete");
-      deleteDiv.append(deleteIcon, deleteText);
-
-      const editIcon = document.createElement("img");
-      editIcon.src = "./images/icon-edit.svg";
-      const editText = createDomElement("p", null, null, "Edit");
-      editDiv.append(editIcon, editText);
 
       if (user.username === currentUser.username) {
         scoreReplyForReply.append(replyScoreElement, deleteDiv, editDiv);
@@ -309,7 +332,7 @@ const information = () => {
         const replyTextSecond = myTextAreaSecond.value.trim();
         if (replyTextSecond !== "") {
           const newReplySecond = {
-            id: 3,
+            id: Math.floor(Math.random() * 1000000),
             content: replyTextSecond,
             createdAt: "1 week ago",
             score: 0,
@@ -328,6 +351,18 @@ const information = () => {
         }
       });
 
+      deleteDiv.onclick = () => {
+        deleteSection.style.display = "block";
+        deleteButton.onclick = (event) => {
+          const newReplyIndex = data.comments[index].replies.findIndex(
+            (reply) => event.target.id
+          );
+          data.comments[index].replies.splice(newReplyIndex, 1);
+          deleteSection.style.display = "none";
+          information();
+        };
+      };
+
       myTextAreaSecond.addEventListener("input", function () {
         if (myTextAreaSecond.value.trim().length > 0) {
           mySubmitSecond.value = "Send";
@@ -343,17 +378,6 @@ const information = () => {
           replyToCommentSecond.style.display = "block";
         }
       });
-      deleteDiv.addEventListener("click", function () {
-        deleteSection.style.display = "block";
-        deleteButton.onclick = () => {
-          const newReplyIndex = data.comments[index].replies.findIndex(
-            (reply) => data.comments[index].replies.id === 10
-          );
-          data.comments[index].replies.splice(newReplyIndex, 1);
-          deleteSection.style.display = "none";
-          information();
-        };
-      });
     }
   }
 };
@@ -362,4 +386,28 @@ information();
 
 cancelButton.addEventListener("click", function () {
   deleteSection.style.display = "none";
+});
+
+sendCommentButton.addEventListener("click", () => {
+  const AddComment = addCommentTextarea.value.trim();
+  if (AddComment !== "") {
+    const newComment = {
+      id: Math.floor(Math.random() * 1000000),
+      content: AddComment,
+      createdAt: "1 days ago",
+      score: 0,
+      user: {
+        image: {
+          png: "./images/avatars/image-juliusomo.png",
+          webp: "./images/avatars/image-juliusomo.webp",
+        },
+        username: "juliusomo",
+      },
+      replies: [],
+    };
+
+    data.comments.push(newComment);
+    addCommentTextarea.value = "";
+    information();
+  }
 });
