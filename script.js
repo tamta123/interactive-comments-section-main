@@ -63,6 +63,15 @@ const information = () => {
     const replyComment = document.createElement("p");
     replyComment.textContent = "reply";
 
+    const updateDiv = createDomElement("div", "update-div");
+    const updateButton = createDomElement(
+      "div",
+      "update-button",
+      null,
+      "UPDATE"
+    );
+    updateDiv.append(updateButton);
+
     commentSection.append(commentBox);
     commentBox.append(userDate, commentText, scoreReply);
     scoreReply.append(scoreElement, replyDiv);
@@ -130,8 +139,6 @@ const information = () => {
         data.comments[index].replies.push(newReply);
         myTextArea.value = "";
         information();
-
-        // console.log(data.comments[index].replies);
       }
     });
 
@@ -207,7 +214,6 @@ const information = () => {
       plusIconNew.addEventListener("click", () => {
         data.comments[index].replies[j].score =
           data.comments[index].replies[j].score + 1;
-        console.log(data.comments[index].replies[j].score);
         information();
       });
       minusIconNew.addEventListener("click", () => {
@@ -238,11 +244,32 @@ const information = () => {
       }
 
       replyUserDate.append(replyUserImage, replyUserName, replyDate);
-      replyBox.append(replyUserDate, replyText, scoreReplyForReply);
+      replyBox.append(replyUserDate, replyText, scoreReplyForReply, updateDiv);
       repliesSection.append(replyBox);
       replyDivReply.append(replyIconReply, replyCommentReply);
 
       commentSection.append(repliesSection);
+
+      editDiv.addEventListener("click", () => {
+        replyText.contentEditable = true;
+        replyText.classList.add("editing");
+        replyText.focus();
+        scoreReplyForReply.style.display = "none";
+        updateDiv.style.display = "flex";
+      });
+
+      updateButton.addEventListener("click", () => {
+        replyText.contentEditable = false;
+        replyText.classList.remove("editing");
+        const updateComment = replyText.innerHTML.trim();
+        data.comment[index].replies = updateComment;
+        information();
+      });
+
+      updateDiv.onclick = () => {
+        updateDiv.style.display = "none";
+        scoreReplyForReply.style.display = "flex";
+      };
 
       // Reply to comment section (reply to comments section)
 
