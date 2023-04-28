@@ -51,6 +51,7 @@ const information = () => {
     const replyDiv = createDomElement("div", "reply-div");
     const userDate = createDomElement("div", "user-date");
     const commentDate = createDomElement("p", "date", null, createdAt);
+    const you = createDomElement("div", "you", null, "you");
 
     const scoreElement = createDomElement("div", "score-value", null, null, id);
     const scoreValue = createDomElement("p", "score-number", null, score);
@@ -85,7 +86,6 @@ const information = () => {
     plusIcon.addEventListener("click", () => {
       data.comments[index].score = data.comments[index].score + 1;
       information();
-      console.log(data.comments[index].score);
     });
 
     minusIcon.addEventListener("click", () => {
@@ -104,13 +104,12 @@ const information = () => {
       deleteSection.style.display = "block";
       deleteButton.onclick = (event) => {
         const newCommentIndex = data.comments.findIndex(
-          (comment) => event.target.id
+          (comment) => data.comments[index].id === comment.id
         );
         data.comments.splice(newCommentIndex, 1);
         deleteSection.style.display = "none";
         information();
       };
-      console.log("click");
     });
 
     const deleteIcon = document.createElement("img");
@@ -122,6 +121,12 @@ const information = () => {
     editIcon.src = "./images/icon-edit.svg";
     const editText = createDomElement("p", null, null, "Edit");
     editDiv.append(editIcon, editText);
+
+    if (user.username === currentUser.username) {
+      userDate.append(userBox, you, commentDate);
+    } else {
+      userDate.append(userBox, commentDate);
+    }
 
     if (user.username === currentUser.username) {
       scoreReply.append(scoreElement, deleteDiv, editDiv);
@@ -141,7 +146,7 @@ const information = () => {
       commentText.contentEditable = false;
       commentText.classList.remove("editing");
       const updateCommentText = replyText.innerHTML.trim();
-      data.comment[index].replies = updateCommentText;
+      data.comments = updateCommentText;
       information();
     });
 
@@ -168,19 +173,16 @@ const information = () => {
     myTextArea.rows = 4;
     myTextArea.cols = 50;
 
-    let mySubmit = document.createElement("input");
-    mySubmit.type = "submit";
-    mySubmit.id = "mySubmit";
-    mySubmit.value = "Reply";
+    let mySubmit = createDomElement("div", "my-submit", null, "Reply");
 
     replyToComment.append(myTextArea, mySubmit);
 
     mySubmit.addEventListener("click", () => {
-      const replyText = myTextArea.value.trim();
-      if (replyText !== "") {
+      const replyTextNew = myTextArea.value.trim();
+      if (replyTextNew !== "") {
         const newReply = {
           id: Math.floor(Math.random() * 1000000),
-          content: replyText,
+          content: replyTextNew,
           createdAt: "1 week ago",
           score: 0,
           replyingTo: data.comments[index].user.username,
@@ -200,9 +202,9 @@ const information = () => {
 
     myTextArea.addEventListener("input", function () {
       if (myTextArea.value.trim().length > 0) {
-        mySubmit.value = "Send";
+        mySubmit.textContent = "Send";
       } else {
-        mySubmit.value = "Reply";
+        mySubmit.textContent = "Reply";
       }
     });
 
@@ -220,9 +222,9 @@ const information = () => {
       const replyBox = createDomElement("div", "reply-box");
       const replyText = createDomElement(
         "div",
-        "comment-text",
+        "reply-text",
         null,
-        `${"@" + replies[j].replyingTo} ${replies[j].content}`
+        replies[j].content
       );
       const replyUserDate = createDomElement("div", "user-date");
       const replyUserImage = createDomElement(
@@ -253,6 +255,13 @@ const information = () => {
         score
       );
 
+      const replyToWhom = createDomElement(
+        "span",
+        "reply-to-whom",
+        null,
+        `@${replies[j].replyingTo} `
+      );
+
       const plusIconNew = document.createElement("img");
       plusIconNew.src = "./images/icon-plus.svg";
       plusIconNew.classList.add("icon-plus");
@@ -277,43 +286,95 @@ const information = () => {
         } else {
           data.comments[index].replies[j].score = 0;
         }
-        console.log(data.comments[index].replies[j].score);
         information();
       });
 
-      if (user.username === currentUser.username) {
-        scoreReplyForReply.append(replyScoreElement, deleteDiv, editDiv);
-      } else {
-        scoreReplyForReply.append(replyScoreElement, replyDivReply);
-      }
+      const updateDivReply = createDomElement("div", "update-div");
+      const updateButtonReply = createDomElement(
+        "div",
+        "update-button",
+        null,
+        "UPDATE"
+      );
+      updateDivReply.append(updateButtonReply);
 
-      replyUserDate.append(replyUserImage, replyUserName, replyDate);
-      replyBox.append(replyUserDate, replyText, scoreReplyForReply, updateDiv);
+      replyText.prepend(replyToWhom);
+      replyBox.append(
+        replyUserDate,
+        replyText,
+        scoreReplyForReply,
+        updateDivReply
+      );
       repliesSection.append(replyBox);
       replyDivReply.append(replyIconReply, replyCommentReply);
 
-      commentSection.append(repliesSection);
+      const deleteDivReply = createDomElement("div", "delete-div");
+      const editDivReply = createDomElement("div", "delete-div");
 
-      editDiv.addEventListener("click", () => {
+      const deleteIconReply = document.createElement("img");
+      deleteIconReply.src = "./images/icon-delete.svg";
+      const deleteTextReply = createDomElement(
+        "p",
+        "delete-text",
+        null,
+        "Delete"
+      );
+      deleteDivReply.append(deleteIconReply, deleteTextReply);
+
+      deleteDivReply.addEventListener("click", function () {
+        deleteSection.style.display = "block";
+        deleteButton.onclick = (event) => {
+          console.log(replies[j]);
+          const replyIndex = replies.findIndex(
+            (reply) => replies[j].id === reply.id
+          );
+          replies.splice(replyIndex, 1);
+          deleteSection.style.display = "none";
+          information();
+        };
+      });
+
+      // bolos damatebul comentars shlis
+
+      const editIconReply = document.createElement("img");
+      editIconReply.src = "./images/icon-edit.svg";
+      const editTextReply = createDomElement("p", null, null, "Edit");
+      editDivReply.append(editIconReply, editTextReply);
+
+      if (replies[j].user.username === currentUser.username) {
+        replyUserDate.append(replyUserImage, replyUserName, you, replyDate);
+        scoreReplyForReply.append(
+          replyScoreElement,
+          deleteDivReply,
+          editDivReply
+        );
+      } else {
+        scoreReplyForReply.append(replyScoreElement, replyDivReply);
+        replyUserDate.append(replyUserImage, replyUserName, replyDate);
+      }
+
+      editDivReply.addEventListener("click", () => {
         replyText.contentEditable = true;
         replyText.classList.add("editing");
         replyText.focus();
         scoreReplyForReply.style.display = "none";
-        updateDiv.style.display = "flex";
+        updateDivReply.style.display = "flex";
       });
 
-      updateButton.addEventListener("click", () => {
+      updateButtonReply.addEventListener("click", () => {
         replyText.contentEditable = false;
         replyText.classList.remove("editing");
         const updateComment = replyText.innerHTML.trim();
-        data.comment[index].replies = updateComment;
+        data.comment[index].replies[j] = updateComment;
         information();
       });
 
-      updateDiv.onclick = () => {
-        updateDiv.style.display = "none";
+      updateDivReply.onclick = () => {
+        updateDivReply.style.display = "none";
         scoreReplyForReply.style.display = "flex";
       };
+
+      commentSection.append(repliesSection);
 
       // Reply to comment section (reply to comments section)
 
@@ -342,10 +403,12 @@ const information = () => {
       myTextAreaSecond.rows = 4;
       myTextAreaSecond.cols = 50;
 
-      let mySubmitSecond = document.createElement("input");
-      mySubmitSecond.type = "submit";
-      mySubmitSecond.id = "mySubmitSecond";
-      mySubmitSecond.value = "Reply";
+      const mySubmitSecond = createDomElement(
+        "div",
+        "my-submit",
+        null,
+        "Reply"
+      );
 
       replyToCommentSecond.append(myTextAreaSecond, mySubmitSecond);
 
@@ -374,11 +437,11 @@ const information = () => {
 
       deleteDiv.onclick = () => {
         deleteSection.style.display = "block";
-        deleteButton.onclick = (event) => {
-          const newReplyIndex = data.comments[index].replies.findIndex(
-            (reply) => event.target.id
+        deleteButton.onclick = () => {
+          const newCommentIndex = comments[index].findIndex(
+            (comment) => comments[index].id === comment.id
           );
-          data.comments[index].replies.splice(newReplyIndex, 1);
+          data.comments[index].splice(newCommentIndex, 1);
           deleteSection.style.display = "none";
           information();
         };

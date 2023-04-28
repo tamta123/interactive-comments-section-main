@@ -41,6 +41,7 @@ body {
 }
 
 .comment-text,
+.reply-text,
 .date {
   font-family: "Rubik";
   font-style: normal;
@@ -340,8 +341,7 @@ textarea {
   margin-bottom: 10px;
 }
 
-#mySubmit,
-#mySubmitSecond {
+.my-submit {
   background: #5357b6;
   border-radius: 8px;
   padding: 12px 30px;
@@ -382,4 +382,27 @@ textarea {
   color: #67727e;
   margin-bottom: 16px;
   resize: none;
+}
+
+.you {
+  width: 36px;
+  height: 19px;
+  background: #5357b6;
+  border-radius: 2px;
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.reply-to-whom {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #5357b6;
 }
