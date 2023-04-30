@@ -427,7 +427,7 @@ textarea {
   }
   .replies-section {
     width: 95%;
-    margin-left: 35px;
+    transform: translateX(5%);
   }
   .score-reply,
   .reply-div {
@@ -441,6 +441,7 @@ textarea {
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    transform: translateX(450%);
     /* margin-left: 285px; */
   }
   .reply-comment-desktop {
@@ -502,6 +503,7 @@ textarea {
     width: 100px;
     height: 50px;
     cursor: pointer;
+    transform: translateX(15%);
   }
   .icon-desktop {
     width: 11.67px;
@@ -534,7 +536,7 @@ textarea {
     display: flex;
     gap: 8px;
     cursor: pointer;
-    /* margin-left: 217px; */
+    transform: translateX(330%);
   }
   .delete-div {
     display: none;
@@ -542,6 +544,7 @@ textarea {
 
   .delete-edit-desktop {
     display: flex;
+    transform: translateX(30%);
     /* margin-left: 70px; */
   }
 
