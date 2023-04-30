@@ -1,13 +1,13 @@
 import data from "./data.json" assert { type: "json" };
 
+const commentSection = document.querySelector(".interactive-comments-section");
+const currentUser = data.currentUser;
+
 const deleteSection = document.querySelector(".delete-section");
 const deleteBox = document.querySelector(".delete-box");
 const deleteBoxHeading = document.querySelector(".delete-box-heading");
 const cancelButton = document.querySelector(".cancel-button");
 const deleteButton = document.querySelector(".delete-button");
-
-const commentSection = document.querySelector(".interactive-comments-section");
-const currentUser = data.currentUser;
 
 const addCommentTextarea = document.querySelector(".add-comment-textarea");
 const sendCommentButton = document.querySelector(".send-comment");
@@ -49,6 +49,20 @@ const information = () => {
     );
     const scoreReply = createDomElement("div", "score-reply");
     const replyDiv = createDomElement("div", "reply-div");
+    const replyDivForDesktop = createDomElement("div", "reply-div-desktop");
+    const replyIconForDesktop = createDomElement(
+      "img",
+      "reply-icon-desktop",
+      "./images/icon-reply.svg"
+    );
+    const replyCommentForDesktop = createDomElement(
+      "p",
+      "reply-comment-desktop",
+      null,
+      "Reply"
+    );
+    replyDivForDesktop.append(replyIconForDesktop, replyCommentForDesktop);
+
     const userDate = createDomElement("div", "user-date");
     const commentDate = createDomElement("p", "date", null, createdAt);
     const you = createDomElement("div", "you", null, "you");
@@ -67,6 +81,47 @@ const information = () => {
     const replyComment = document.createElement("p");
     replyComment.textContent = "reply";
 
+    const scoreElementForDesktop = createDomElement(
+      "div",
+      "score-element-desktop"
+    );
+    const scoreValueForDesktop = createDomElement(
+      "p",
+      "score-value-desktop",
+      null,
+      score
+    );
+    const plusIconDesktop = createDomElement(
+      "img",
+      "plus-desktop",
+      "./images/icon-plus.svg"
+    );
+    const minusIconDesktop = createDomElement(
+      "img",
+      "minus-desktop",
+      "./images/icon-minus.svg"
+    );
+    scoreElementForDesktop.append(
+      plusIconDesktop,
+      scoreValueForDesktop,
+      minusIconDesktop
+    );
+    const commentBoxDesktop = createDomElement("div", "comment-box-desktop");
+
+    plusIconDesktop.addEventListener("click", () => {
+      data.comments[index].score = data.comments[index].score + 1;
+      information();
+    });
+
+    minusIconDesktop.addEventListener("click", () => {
+      if (data.comments[index].score > 0) {
+        data.comments[index].score = data.comments[index].score - 1;
+      } else {
+        data.comments[index].score = 0;
+      }
+      information();
+    });
+
     const updateDiv = createDomElement("div", "update-div");
     const updateButton = createDomElement(
       "div",
@@ -77,11 +132,13 @@ const information = () => {
     updateDiv.append(updateButton);
 
     commentSection.append(commentBox);
-    commentBox.append(userDate, commentText, scoreReply, updateDiv);
+    commentBoxDesktop.append(userDate, commentText, scoreReply, updateDiv);
+    commentBox.append(scoreElementForDesktop, commentBoxDesktop);
     scoreReply.append(scoreElement);
     replyDiv.append(replyIcon, replyComment);
     userBox.append(userImage, userName);
-    userDate.append(userBox, commentDate);
+    // userDate.append(userBox, commentDate);
+    // commentDate.append(replyDivForDesktop);
 
     plusIcon.addEventListener("click", () => {
       data.comments[index].score = data.comments[index].score + 1;
@@ -122,15 +179,48 @@ const information = () => {
     const editText = createDomElement("p", null, null, "Edit");
     editDiv.append(editIcon, editText);
 
-    if (user.username === currentUser.username) {
-      userDate.append(userBox, you, commentDate);
-    } else {
-      userDate.append(userBox, commentDate);
-    }
+    const deleteEditDesktop = createDomElement("div", "delete-edit-desktop");
+    const deleteDivDesktop = createDomElement("div", "delete-div-desktop");
+    const editDivDesktop = createDomElement("div", "delete-div-desktop");
 
+    deleteDivDesktop.addEventListener("click", function () {
+      deleteSection.style.display = "block";
+      deleteButton.onclick = (event) => {
+        const newCommentIndex = data.comments.findIndex(
+          (comment) => data.comments[index].id === comment.id
+        );
+        data.comments.splice(newCommentIndex, 1);
+        deleteSection.style.display = "none";
+        information();
+      };
+    });
+
+    const deleteIconDesktop = createDomElement(
+      "img",
+      "icon-desktop",
+      "./images/icon-delete.svg"
+    );
+    const deleteTextDesktop = createDomElement(
+      "p",
+      "delete-text",
+      null,
+      "Delete"
+    );
+    deleteDivDesktop.append(deleteIconDesktop, deleteTextDesktop);
+
+    const editIconDesktop = createDomElement(
+      "img",
+      "icon-desktop",
+      "./images/icon-edit.svg"
+    );
+    const editTextDesktop = createDomElement("p", "edit-text", null, "Edit");
+    editDivDesktop.append(editIconDesktop, editTextDesktop);
+    deleteEditDesktop.append(deleteDivDesktop, editDivDesktop);
     if (user.username === currentUser.username) {
+      userDate.append(userBox, you, commentDate, deleteEditDesktop);
       scoreReply.append(scoreElement, deleteDiv, editDiv);
     } else {
+      userDate.append(userBox, commentDate, replyDivForDesktop);
       scoreReply.append(scoreElement, replyDiv);
     }
 
@@ -155,6 +245,26 @@ const information = () => {
       scoreReply.style.display = "flex";
     };
 
+    editDivDesktop.addEventListener("click", () => {
+      console.log("click");
+      // commentText.contentEditable = true;
+      // commentText.classList.add("editing");
+      // commentText.focus();
+      // updateDiv.style.display = "flex";
+    });
+
+    // updateButton.addEventListener("click", () => {
+    //   commentText.contentEditable = false;
+    //   commentText.classList.remove("editing");
+    //   const updateCommentText = replyText.innerHTML.trim();
+    //   data.comments = updateCommentText;
+    //   information();
+    // });
+
+    // updateDiv.onclick = () => {
+    //   updateDiv.style.display = "none";
+    // };
+
     // Reply to comment section
 
     const replyToComment = createDomElement("div", "reply-to-comment");
@@ -170,7 +280,7 @@ const information = () => {
     myTextArea.classList.add("my-text-area");
     myTextArea.name = "myText";
     myTextArea.id = "myText";
-    myTextArea.rows = 4;
+    myTextArea.rows = 3;
     myTextArea.cols = 50;
 
     let mySubmit = createDomElement("div", "my-submit", null, "Reply");
@@ -216,6 +326,14 @@ const information = () => {
       }
     });
 
+    replyDivForDesktop.addEventListener("click", function () {
+      if (replyToComment.style.display === "flex") {
+        replyToComment.style.display = "none";
+      } else {
+        replyToComment.style.display = "flex";
+      }
+    });
+
     const repliesSection = createDomElement("div", "replies-section");
     for (let j = 0; j < replies.length; j++) {
       const { id, content, createdAt, score, user, username } = replies[j];
@@ -238,6 +356,27 @@ const information = () => {
         null,
         user.username
       );
+
+      const newReplyDivForDesktop = createDomElement(
+        "div",
+        "new-reply-div-desktop"
+      );
+      const newReplyIconForDesktop = createDomElement(
+        "img",
+        "reply-icon-desktop",
+        "./images/icon-reply.svg"
+      );
+      const newReplyCommentForDesktop = createDomElement(
+        "p",
+        "reply-comment-desktop",
+        null,
+        "Reply"
+      );
+      newReplyDivForDesktop.append(
+        newReplyIconForDesktop,
+        newReplyCommentForDesktop
+      );
+
       const replyDate = createDomElement("p", "date", null, createdAt);
       const scoreReplyForReply = createDomElement("div", "score-reply");
       const replyDivReply = createDomElement("div", "reply-div");
@@ -274,6 +413,48 @@ const information = () => {
       const replyCommentReply = document.createElement("p");
       replyCommentReply.textContent = "reply";
 
+      const replyScoreElementForDesktop = createDomElement(
+        "div",
+        "score-element-desktop"
+      );
+      const replyScoreValueForDesktop = createDomElement(
+        "p",
+        "score-value-desktop",
+        null,
+        score
+      );
+      const replyPlusIconDesktop = createDomElement(
+        "img",
+        "plus-desktop",
+        "./images/icon-plus.svg"
+      );
+      const replyMinusIconDesktop = createDomElement(
+        "img",
+        "minus-desktop",
+        "./images/icon-minus.svg"
+      );
+      replyScoreElementForDesktop.append(
+        replyPlusIconDesktop,
+        replyScoreValueForDesktop,
+        replyMinusIconDesktop
+      );
+      const replyBoxDesktop = createDomElement("div", "comment-box-desktop");
+
+      replyPlusIconDesktop.addEventListener("click", () => {
+        data.comments[index].replies[j].score =
+          data.comments[index].replies[j].score + 1;
+        information();
+      });
+      replyMinusIconDesktop.addEventListener("click", () => {
+        if (data.comments[index].replies[j].score > 0) {
+          data.comments[index].replies[j].score =
+            data.comments[index].replies[j].score - 1;
+        } else {
+          data.comments[index].replies[j].score = 0;
+        }
+        information();
+      });
+
       plusIconNew.addEventListener("click", () => {
         data.comments[index].replies[j].score =
           data.comments[index].replies[j].score + 1;
@@ -299,12 +480,13 @@ const information = () => {
       updateDivReply.append(updateButtonReply);
 
       replyText.prepend(replyToWhom);
-      replyBox.append(
+      replyBoxDesktop.append(
         replyUserDate,
         replyText,
         scoreReplyForReply,
         updateDivReply
       );
+      replyBox.append(replyScoreElementForDesktop, replyBoxDesktop);
       repliesSection.append(replyBox);
       replyDivReply.append(replyIconReply, replyCommentReply);
 
@@ -334,15 +516,67 @@ const information = () => {
         };
       });
 
-      // bolos damatebul comentars shlis
-
       const editIconReply = document.createElement("img");
       editIconReply.src = "./images/icon-edit.svg";
       const editTextReply = createDomElement("p", null, null, "Edit");
       editDivReply.append(editIconReply, editTextReply);
 
+      const newDeleteEditDesktop = createDomElement(
+        "div",
+        "delete-edit-desktop"
+      );
+      const newDeleteDivDesktop = createDomElement("div", "delete-div-desktop");
+      const newEditDivDesktop = createDomElement("div", "delete-div-desktop");
+
+      newDeleteDivDesktop.addEventListener("click", function () {
+        deleteSection.style.display = "block";
+        deleteButton.onclick = (event) => {
+          console.log(replies[j]);
+          const replyIndex = replies.findIndex(
+            (reply) => replies[j].id === reply.id
+          );
+          replies.splice(replyIndex, 1);
+          deleteSection.style.display = "none";
+          information();
+        };
+      });
+
+      const newDeleteIconDesktop = createDomElement(
+        "img",
+        "icon-desktop",
+        "./images/icon-delete.svg"
+      );
+      const newDeleteTextDesktop = createDomElement(
+        "p",
+        "delete-text",
+        null,
+        "Delete"
+      );
+      newDeleteDivDesktop.append(newDeleteIconDesktop, newDeleteTextDesktop);
+
+      const newEditIconDesktop = createDomElement(
+        "img",
+        "icon-desktop",
+        "./images/icon-edit.svg"
+      );
+      const newEditTextDesktop = createDomElement(
+        "p",
+        "edit-text",
+        null,
+        "Edit"
+      );
+      newEditDivDesktop.append(newEditIconDesktop, newEditTextDesktop);
+      newDeleteEditDesktop.append(newDeleteDivDesktop, newEditDivDesktop);
+      const newYou = createDomElement("div", "you", null, "you");
+
       if (replies[j].user.username === currentUser.username) {
-        replyUserDate.append(replyUserImage, replyUserName, you, replyDate);
+        replyUserDate.append(
+          replyUserImage,
+          replyUserName,
+          newYou,
+          replyDate,
+          newDeleteEditDesktop
+        );
         scoreReplyForReply.append(
           replyScoreElement,
           deleteDivReply,
@@ -350,7 +584,12 @@ const information = () => {
         );
       } else {
         scoreReplyForReply.append(replyScoreElement, replyDivReply);
-        replyUserDate.append(replyUserImage, replyUserName, replyDate);
+        replyUserDate.append(
+          replyUserImage,
+          replyUserName,
+          replyDate,
+          newReplyDivForDesktop
+        );
       }
 
       editDivReply.addEventListener("click", () => {
@@ -372,6 +611,25 @@ const information = () => {
       updateDivReply.onclick = () => {
         updateDivReply.style.display = "none";
         scoreReplyForReply.style.display = "flex";
+      };
+
+      newEditDivDesktop.addEventListener("click", () => {
+        replyText.contentEditable = true;
+        replyText.classList.add("editing");
+        replyText.focus();
+        updateDivReply.style.display = "flex";
+      });
+
+      updateButtonReply.addEventListener("click", () => {
+        replyText.contentEditable = false;
+        replyText.classList.remove("editing");
+        const updateComment = replyText.innerHTML.trim();
+        data.comment[index].replies[j] = updateComment;
+        information();
+      });
+
+      updateDivReply.onclick = () => {
+        updateDivReply.style.display = "none";
       };
 
       commentSection.append(repliesSection);
@@ -452,6 +710,14 @@ const information = () => {
           mySubmitSecond.value = "Send";
         } else {
           mySubmitSecond.value = "Reply";
+        }
+      });
+
+      newReplyDivForDesktop.addEventListener("click", function () {
+        if (replyToCommentSecond.style.display === "flex") {
+          replyToCommentSecond.style.display = "none";
+        } else {
+          replyToCommentSecond.style.display = "flex";
         }
       });
 

@@ -25,6 +25,12 @@ body {
   border-radius: 8px;
   padding: 16px;
 }
+
+.comment-box-desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 .reply-by-current-user {
   width: 100%;
   height: 50px;
@@ -405,4 +411,162 @@ textarea {
   font-size: 16px;
   line-height: 24px;
   color: #5357b6;
+}
+
+.reply-div-desktop,
+.score-element-desktop,
+.delete-div-desktop,
+.new-reply-div-desktop,
+.current-user-desktop {
+  display: none;
+}
+
+@media screen and (min-width: 1440px) {
+  body {
+    padding: 64px 355px;
+  }
+  .replies-section {
+    width: 95%;
+    margin-left: 35px;
+  }
+  .score-reply,
+  .reply-div {
+    display: none;
+  }
+  .reply-div-desktop {
+    display: block;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    /* margin-left: 285px; */
+  }
+  .reply-comment-desktop {
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #5357b6;
+  }
+  .score-element-desktop {
+    display: flex;
+    flex-direction: column;
+    width: 40px;
+    height: 100px;
+    background: #f5f6fa;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: #5357b6;
+    /* margin-top: 16px; */
+  }
+  .comment-box {
+    flex-direction: row;
+  }
+  .comment-box-desktop {
+    width: 90%;
+  }
+  .date {
+    display: flex;
+    gap: 300px;
+  }
+  .reply-box {
+    flex-direction: row;
+  }
+  .reply-to-comment {
+    gap: 16px;
+  }
+  .i-am-replier {
+    align-items: flex-start;
+  }
+
+  .my-name {
+    display: none;
+  }
+  .my-submit {
+    height: 48px;
+  }
+  .delete-div-desktop {
+    display: flex;
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+  }
+  .icon-desktop {
+    width: 11.67px;
+    height: 14px;
+  }
+  .delete-text {
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #ed6368;
+  }
+  .edit-text {
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #5357b6;
+  }
+  .delete-div-desktop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .new-reply-div-desktop {
+    display: flex;
+    gap: 8px;
+    cursor: pointer;
+    /* margin-left: 217px; */
+  }
+  .delete-div {
+    display: none;
+  }
+
+  .delete-edit-desktop {
+    display: flex;
+    /* margin-left: 70px; */
+  }
+
+  .delete-box {
+    width: 28%;
+    margin-top: 386px;
+  }
+
+  .current-user-comment-area {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .current-user-comment-area .current-user {
+    display: none;
+  }
+  .current-user-desktop {
+    display: block;
+    height: 40px;
+    width: 40px;
+  }
+  .add-comment {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+  }
 }
