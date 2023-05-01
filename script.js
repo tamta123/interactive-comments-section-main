@@ -137,8 +137,6 @@ const information = () => {
     scoreReply.append(scoreElement);
     replyDiv.append(replyIcon, replyComment);
     userBox.append(userImage, userName);
-    // userDate.append(userBox, commentDate);
-    // commentDate.append(replyDivForDesktop);
 
     plusIcon.addEventListener("click", () => {
       data.comments[index].score = data.comments[index].score + 1;
@@ -247,23 +245,23 @@ const information = () => {
 
     editDivDesktop.addEventListener("click", () => {
       console.log("click");
-      // commentText.contentEditable = true;
-      // commentText.classList.add("editing");
-      // commentText.focus();
-      // updateDiv.style.display = "flex";
+      commentText.contentEditable = true;
+      commentText.classList.add("editing");
+      commentText.focus();
+      updateDiv.style.display = "flex";
     });
 
-    // updateButton.addEventListener("click", () => {
-    //   commentText.contentEditable = false;
-    //   commentText.classList.remove("editing");
-    //   const updateCommentText = replyText.innerHTML.trim();
-    //   data.comments = updateCommentText;
-    //   information();
-    // });
+    updateButton.addEventListener("click", () => {
+      commentText.contentEditable = false;
+      commentText.classList.remove("editing");
+      const updateCommentText = replyText.innerHTML.trim();
+      data.comments = updateCommentText;
+      information();
+    });
 
-    // updateDiv.onclick = () => {
-    //   updateDiv.style.display = "none";
-    // };
+    updateDiv.onclick = () => {
+      updateDiv.style.display = "none";
+    };
 
     // Reply to comment section
 
