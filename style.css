@@ -532,6 +532,21 @@ textarea {
     gap: 8px;
     cursor: pointer;
   }
+  .delete-div-desktop:hover {
+    opacity: 0.5;
+  }
+
+  .reply-div-desktop:hover,
+  .new-reply-div-desktop:hover {
+    opacity: 0.5;
+  }
+
+  .my-submit:hover,
+  .update-button:hover,
+  .send-comment:hover {
+    background-color: #c5c6ef;
+  }
+
   .new-reply-div-desktop {
     display: flex;
     gap: 8px;

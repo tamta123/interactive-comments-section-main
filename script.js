@@ -233,8 +233,6 @@ const information = () => {
     updateButton.addEventListener("click", () => {
       commentText.contentEditable = false;
       commentText.classList.remove("editing");
-      const updateCommentText = replyText.innerHTML.trim();
-      data.comments = updateCommentText;
       information();
     });
 
@@ -254,8 +252,6 @@ const information = () => {
     updateButton.addEventListener("click", () => {
       commentText.contentEditable = false;
       commentText.classList.remove("editing");
-      const updateCommentText = replyText.innerHTML.trim();
-      data.comments = updateCommentText;
       information();
     });
 
@@ -598,13 +594,11 @@ const information = () => {
         updateDivReply.style.display = "flex";
       });
 
-      updateButtonReply.addEventListener("click", () => {
+      updateButtonReply.onclick = () => {
         replyText.contentEditable = false;
         replyText.classList.remove("editing");
-        const updateComment = replyText.innerHTML.trim();
-        data.comment[index].replies[j] = updateComment;
         information();
-      });
+      };
 
       updateDivReply.onclick = () => {
         updateDivReply.style.display = "none";
@@ -618,13 +612,11 @@ const information = () => {
         updateDivReply.style.display = "flex";
       });
 
-      updateButtonReply.addEventListener("click", () => {
+      updateButtonReply.onclick = () => {
         replyText.contentEditable = false;
         replyText.classList.remove("editing");
-        const updateComment = replyText.innerHTML.trim();
-        data.comment[index].replies[j] = updateComment;
         information();
-      });
+      };
 
       updateDivReply.onclick = () => {
         updateDivReply.style.display = "none";
