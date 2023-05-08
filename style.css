@@ -441,8 +441,7 @@ textarea {
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    transform: translateX(450%);
-    /* margin-left: 285px; */
+    margin-left: auto;
   }
   .reply-comment-desktop {
     font-family: "Rubik";
@@ -479,7 +478,7 @@ textarea {
     width: 90%;
   }
   .date {
-    display: flex;
+    /* display: flex; */
     gap: 300px;
   }
   .reply-box {
@@ -551,7 +550,7 @@ textarea {
     display: flex;
     gap: 8px;
     cursor: pointer;
-    transform: translateX(330%);
+    margin-left: auto;
   }
   .delete-div {
     display: none;
@@ -559,8 +558,7 @@ textarea {
 
   .delete-edit-desktop {
     display: flex;
-    transform: translateX(30%);
-    /* margin-left: 70px; */
+    margin-left: auto;
   }
 
   .delete-box {
